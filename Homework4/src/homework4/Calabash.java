@@ -1,5 +1,7 @@
 package homework4;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 
 enum COLOR {
@@ -9,7 +11,7 @@ enum COLOR {
 public class Calabash extends Creature {
 	private COLOR color;
 
-	public Calabash(COLOR color, Creature[][] map) {
+	public Calabash(COLOR color, Creature[][] map, ArrayList<String> info) {
 		this.color = color;
 		// attack = 5;
 		velX = 50;
@@ -19,6 +21,8 @@ public class Calabash extends Creature {
 		aliveImage = new Image(getClass().getResourceAsStream("calabash" + color.ordinal() + ".png"));
 		deadImage = new Image(getClass().getResourceAsStream("death.png"));
 		creatureMap = map;
+		infoItem = info;
+
 	}
 
 }

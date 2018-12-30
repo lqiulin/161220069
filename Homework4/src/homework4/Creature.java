@@ -1,5 +1,7 @@
 package homework4;
 
+import java.util.ArrayList;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -17,12 +19,14 @@ public abstract class Creature {
 	protected Image aliveImage;
 	protected Image deadImage;
 	protected Creature[][] creatureMap;
+	protected ArrayList<String> infoItem;
 	protected int mrow;
 	protected int mcol;
 	protected double posX;
 	protected double posY;
 	protected double velX;
 	protected double velY;
+	protected String name;
 
 	public Creature() {
 		hp = 30;
@@ -34,6 +38,14 @@ public abstract class Creature {
 		posY = 0;
 		velX = 0;
 		velY = 0;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public Image getAliveImage() {
@@ -56,9 +68,9 @@ public abstract class Creature {
 		mcol = col;
 	}
 
-	public synchronized void updateLocation(double time) {
+	public synchronized boolean updateLocation(double time) {
 		if (!alive)
-			return;
+			return false;
 		double tmpx = posX + velX * time;
 		double tmpy = posY + velY * time;
 		int tmpcol = (int) (tmpx / PHOTOX);
@@ -70,12 +82,12 @@ public abstract class Creature {
 		if (tmprow >= ROWS || tmpcol >= COLS || tmprow < 0 || tmpcol < 0) {
 			velX = 0;
 			velY = 0;
-			return;
+			return false;
 		}
 		if (tmprow == mrow && tmpcol == mcol) {
 			posX += velX * time;
 			posY += velY * time;
-			return;
+			return true;
 		}
 		if (creatureMap[tmprow][tmpcol] == null) {
 			// System.out.println("&&&&&&&&&&&");
@@ -85,13 +97,14 @@ public abstract class Creature {
 			creatureMap[mrow][mcol] = null;
 			mrow = tmprow;
 			mcol = tmpcol;
-			return;
+			return true;
 		} else {
 			// System.out.println(mrow + "," + mcol + "." + tmprow + "," + tmpcol);
 			fighting = true;
 			velX = 0;
+			return false;
 		}
-		return;
+		// return false;
 //		if (goodguy) {
 //			if ((posX + velX * time) > mcol * PHOTOX) {
 //				if (creatureMap[mrow][mcol + 1] == null) {
@@ -189,21 +202,28 @@ public abstract class Creature {
 
 	}
 
-	public synchronized void fight() {
+	public synchronized boolean fight() {
 		if (!alive)
-			return;
+			return false;
 		if (!fighting)
-			return;
+			return false;
 		Creature target = getTarget();
 		if (target == null) {
 			fighting = false;
 			setDirection();
-			return;
+			return false;
 		}
 		attackTarget(target);
+		// System.out.println(name + " attack " + target.getName());
+		updateInfoItem(name + " attack " + target.getName());
+		return true;
 	}
 
-	private void setDirection() {
+	private void updateInfoItem(String line) {
+		infoItem.add(line);
+	}
+
+	public void setDirection() {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
 				if (creatureMap[i][j] != null && creatureMap[i][j].getStatus()) {
@@ -223,7 +243,7 @@ public abstract class Creature {
 		return;
 	}
 
-	private void attackTarget(Creature target) {
+	public void attackTarget(Creature target) {
 		target.receiveAttack(attack);
 	}
 

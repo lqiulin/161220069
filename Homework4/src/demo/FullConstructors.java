@@ -1,5 +1,6 @@
 package demo;
 
+//作业文件在homework4中
 class MyException extends Exception {
 	public MyException() {
 	}

@@ -3,16 +3,19 @@ package homework4;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 
-public class CreatureThread implements Runnable {
+public class CreatureThread<T extends Creature> implements Runnable {
 	private Thread t;
 	private String threadName;
-	Creature theCreature;
+	T theCreature;
 	GraphicsContext gc;
 	boolean working;
+	// PrintStream output;
 
-	public CreatureThread(String name, Creature c, GraphicsContext gc) {
+	public CreatureThread(String name, T c, GraphicsContext gc) {
 		threadName = name;
 		theCreature = c;
+		theCreature.setName(threadName);
+
 		this.gc = gc;
 	}
 
@@ -34,10 +37,18 @@ public class CreatureThread implements Runnable {
 				// gc.clearRect(0, 0, 512,512);
 				double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
 				lastNanoTime.value = currentNanoTime;
-				if (working) {
-					theCreature.updateLocation(elapsedTime);
-					theCreature.fight();
-					// Platform.runLater(() -> {
+				try {
+
+					if (working) {
+						theCreature.updateLocation(elapsedTime);
+						// if (theCreature.fight())
+						// output.println(theCreature.getInfoLine());
+						// outfile>>theCreature.getInfoLine();
+						theCreature.fight();
+						// Platform.runLater(() -> {
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("Exception thrown  :" + e);
 				}
 				// if(!theCreature.alive)
 				// stop();
