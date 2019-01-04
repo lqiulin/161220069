@@ -202,7 +202,7 @@ public class Game extends Application {
 		buildTheWorld(gc);
 
 		// gc.drawImage( image, positionX, positionY );
-		Image background = new Image(getClass().getResourceAsStream("background.png"));
+		Image background = new Image(getClass().getResourceAsStream("/background.png"));
 		gc.drawImage(background, 0, 0);
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {

@@ -18,8 +18,8 @@ public class Calabash extends Creature {
 		goodguy = true;
 		// aliveImage = new Image(getClass().getResourceAsStream("calabash2.png"));
 		// System.out.println(color.ordinal());
-		aliveImage = new Image(getClass().getResourceAsStream("calabash" + color.ordinal() + ".png"));
-		deadImage = new Image(getClass().getResourceAsStream("death.png"));
+		aliveImage = new Image(getClass().getResourceAsStream("/calabash" + color.ordinal() + ".png"));
+		deadImage = new Image(getClass().getResourceAsStream("/death.png"));
 		creatureMap = map;
 		infoItem = info;
 

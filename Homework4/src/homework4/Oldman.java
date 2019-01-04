@@ -8,8 +8,8 @@ public class Oldman extends Creature {
 	public Oldman(Creature[][] map, ArrayList<String> info) {
 		velX = 50;
 		goodguy = true;
-		aliveImage = new Image(getClass().getResourceAsStream("oldman.png"));
-		deadImage = new Image(getClass().getResourceAsStream("death.png"));
+		aliveImage = new Image(getClass().getResourceAsStream("/oldman.png"));
+		deadImage = new Image(getClass().getResourceAsStream("/death.png"));
 		creatureMap = map;
 		infoItem = info;
 	}
